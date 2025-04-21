@@ -143,3 +143,52 @@ console.log(maxSumSubarray([3, 3, 4, 1, 5], 2)); // Output: 7
 console.log(maxSumSubarray([1, 2, 3, 4, 5], 2)); // Output: 9
 console.log(maxSumSubarray([1, 2, 3, 4, 5], 3)); // Output: 12
 console.log(maxSumSubarray([1, 2, 3, 4, 5], 4)); // Output: 14
+
+
+
+/**
+ * Count of Subarrays with Product Less Than k
+ * - Given an array of integers and a number k, find the count of contiguous subarrays whose product is less than k.
+ * 
+ * Logic:
+ * - Initialize a variable to store the product of the current window.
+ * - Use two pointers to represent the boundaries of the window.
+ * - Expand the right pointer to include elements in the window and update the product.
+ * - If the product exceeds k, shrink the left pointer until the product is less than k.
+ * - Count the number of valid subarrays formed by the current window.
+ * - Return the total count after processing all elements.
+ * 
+ * Time Complexity: O(n) - where n is the length of the input array.
+ * Space Complexity: O(1) - no additional space is used.
+ * 
+ * Real-world applications:
+ * - Analyzing time series data for specific patterns (e.g., stock prices, sensor readings).
+ * - Optimizing resource allocation in scheduling problems (e.g., CPU usage, memory management).
+ * - Finding the count of subarrays that meet a certain condition (e.g., sales data, stock prices).
+ * - Solving problems related to network traffic analysis (e.g., packet loss, bandwidth usage).
+ */
+
+function numSubarrayProductLessThanK(nums, k) {
+  if (k <= 1) return 0;
+
+  let prod = 1, left = 0, count = 0;
+
+  for (let right = 0; right < nums.length; right++) {
+      prod *= nums[right];
+      while (prod >= k) {
+          prod /= nums[left];
+          left++;
+      }
+      count += right - left + 1;
+  }
+
+  return count;
+}
+
+console.log("Count of Subarrays with Product Less Than k:");
+console.log(numSubarrayProductLessThanK([10, 5, 2, 6], 100)); // Output: 8
+console.log(numSubarrayProductLessThanK([1, 2, 3], 0)); // Output: 0
+console.log(numSubarrayProductLessThanK([1, 2, 3], 1)); // Output: 0
+console.log(numSubarrayProductLessThanK([1, 2, 3], 10)); // Output: 6
+console.log(numSubarrayProductLessThanK([1, 2, 3], 6)); // Output: 5
+console.log(numSubarrayProductLessThanK([1, 2, 3], 7)); // Output: 6
